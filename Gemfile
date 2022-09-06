@@ -15,6 +15,9 @@ gem "pg", "~> 1.1"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
 
+# Use devise to authenticate users
+gem 'devise'
+
 # Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
 gem "jsbundling-rails", ">= 0.2.2"
 
@@ -32,6 +35,8 @@ gem "jbuilder", "~> 2.11"
 
 # Use Redis adapter to run Action Cable in production
 gem "redis", "~> 4.0"
+
+gem 'slim-rails'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
