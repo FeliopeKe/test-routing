@@ -10,10 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_01_025923) do
+ActiveRecord::Schema.define(version: 2022_09_06_205735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "drivers", force: :cascade do |t|
+    t.bigint "organization_id"
+    t.string "name"
+    t.string "last_name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["organization_id"], name: "index_drivers_on_organization_id"
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "routes", force: :cascade do |t|
+    t.bigint "organization_id"
+    t.bigint "driver_id"
+    t.bigint "vehicle_id"
+    t.string "aasm_state"
+    t.datetime "starts_at", precision: 6
+    t.datetime "ends_at", precision: 6
+    t.string "travel_time"
+    t.integer "total_stops"
+    t.string "actions"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["driver_id"], name: "index_routes_on_driver_id"
+    t.index ["organization_id"], name: "index_routes_on_organization_id"
+    t.index ["vehicle_id"], name: "index_routes_on_vehicle_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -25,10 +57,20 @@ ActiveRecord::Schema.define(version: 2022_09_01_025923) do
     t.string "subject"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "organization_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["national_id"], name: "index_users_on_national_id"
+    t.index ["organization_id"], name: "index_users_on_organization_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["subject"], name: "index_users_on_subject", unique: true
+  end
+
+  create_table "vehicles", force: :cascade do |t|
+    t.bigint "organization_id"
+    t.string "plate"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["organization_id"], name: "index_vehicles_on_organization_id"
   end
 
 end
