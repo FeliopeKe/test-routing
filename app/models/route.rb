@@ -13,6 +13,23 @@ class Route < ApplicationRecord
     end
   end
 
+  ASSIGNABLES = %w[vehicle driver].freeze
+
+  ASSIGNABLES.each do |assignable|
+    # Checks if the times of routes permit to assing
+    #
+    # @return [Boolean] true if can assing, otherwise false
+    define_method :"can_assing_#{assignable}?" do |assignable|
+      routes = assignable.routes
+      routes.each do |r|
+        return true if r == self
+        return false if r.starts_at.between?(starts_at, ends_at)
+        return false if r.ends_at.between?(starts_at, ends_at)
+      end
+      true
+    end
+  end
+
   def vehicle
     Vehicle.find_by(id: vehicle_id)
   end
@@ -27,8 +44,24 @@ class Route < ApplicationRecord
     self.assign!
   end
 
-  def hours
-    @date_aux = ((starts_at - ends_at)/1.minutes.second).to_i
+  def hours_duration
+    date_aux = ((ends_at - starts_at)/1.minutes.second).abs.to_i
+    minutes = date_aux%60
+    hours = date_aux/60
+    return "#{hours}H" if minutes.zero?
+    "#{hours}H #{minutes}M"
+  end
+
+  def starts_at_hour
+    starts_at.strftime("%H:%M")
+  end
+
+  def ends_at_hour
+    ends_at.strftime("%H:%M")
+  end
+
+  def date
+    starts_at.strftime("%d-%m-%Y")
   end
 
 end

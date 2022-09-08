@@ -1,10 +1,12 @@
-h1 Rutas
+.row.px-5.py-5
+	h1 Conjunto de rutas
 .row 
-	.col-8
+	.col-9.p-5
 			table.table.table-responsive
-				thead
+				thead.background-header
 					tr 
 						th Nombre 
+						th Fecha
 						th Hora 
 						th Tiempo 
 						th Paradas 
@@ -13,27 +15,19 @@ h1 Rutas
 						th Conductor
 						th Accion
 				tbody 
-					- @routes.pending.each do |r|
+					- @routes.each do |r|
 						=form_with(url: set_driver_and_vehicle_path , method: "put", html: { class: 'form' }) do |f|
 							= f.hidden_field :route_id, value: r.id
 							tr  
 								td = r.name 
-								td = "#{r.starts_at} hasta #{r.ends_at}"
-								td = 'horas'
+								th = r.date
+								td = "#{r.starts_at_hour} hasta #{r.ends_at_hour}"
+								td = r.hours_duration
 								td = '2'
 								td = 'llegada'
-								td = f.select :vehicle, options_from_collection_for_select(@vehicles, 'id', 'plate')
-								td = f.select :driver, options_from_collection_for_select(@drivers, 'id', 'name')
+								td = f.select :vehicle_id, options_from_collection_for_select(@vehicles, 'id', 'plate', selected: r.vehicle&.id)
+								td = f.select :driver_id, options_from_collection_for_select(@drivers, 'id', 'name', selected: r.driver&.id)
 								td = f.submit 'asignar', class:'btn btn-primary'
 li 
 	a = link_to destroy_user_session_path, :method => :delete, html: {'data-turbo' => "false"}
 		span logoutsadf
-	- @routes.pending.each do |r|
-		p #{r.name}
-		p Hora de inicio #{r.starts_at}
-		p Hora de termino #{r.ends_at}
-
-	.field
-    = label :route, 'ruta', class: 'form-label'
-    = select :route, options_for_select('valor1', 'valor2'),{}, { class: 'form-control' } 
-  
