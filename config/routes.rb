@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   # root "articles#index"
   get '/organizations', to: 'organizations#index'
 
+  put '/set_driver_and_vehicle', to: 'organizations#set_driver_and_vehicle'
+
   root to: 'organizations#index'
 
 end

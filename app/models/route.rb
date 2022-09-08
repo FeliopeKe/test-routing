@@ -27,4 +27,8 @@ class Route < ApplicationRecord
     self.assign!
   end
 
+  def hours
+    @date_aux = ((starts_at - ends_at)/1.minutes.second).to_i
+  end
+
 end

@@ -5,6 +5,7 @@ class CreateRoutes < ActiveRecord::Migration[7.0]
       t.references :driver
       t.references :vehicle
 
+      t.string :name
       t.string :aasm_state
       t.datetime :starts_at
       t.datetime :ends_at

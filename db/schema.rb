@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 2022_09_06_205735) do
     t.bigint "organization_id"
     t.bigint "driver_id"
     t.bigint "vehicle_id"
+    t.string "name"
     t.string "aasm_state"
     t.datetime "starts_at", precision: 6
     t.datetime "ends_at", precision: 6

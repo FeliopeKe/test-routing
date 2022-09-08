@@ -1,6 +1,39 @@
 h1 Rutas
+.row 
+	.col-8
+			table.table.table-responsive
+				thead
+					tr 
+						th Nombre 
+						th Hora 
+						th Tiempo 
+						th Paradas 
+						th Accion 
+						th Vehiculo
+						th Conductor
+						th Accion
+				tbody 
+					- @routes.pending.each do |r|
+						=form_with(url: set_driver_and_vehicle_path , method: "put", html: { class: 'form' }) do |f|
+							= f.hidden_field :route_id, value: r.id
+							tr  
+								td = r.name 
+								td = "#{r.starts_at} hasta #{r.ends_at}"
+								td = 'horas'
+								td = '2'
+								td = 'llegada'
+								td = f.select :vehicle, options_from_collection_for_select(@vehicles, 'id', 'plate')
+								td = f.select :driver, options_from_collection_for_select(@drivers, 'id', 'name')
+								td = f.submit 'asignar', class:'btn btn-primary'
 li 
-    a = link_to destroy_user_session_path, :method => :delete, html: {'data-turbo' => "false"}
-        span logoutsadf
-    - @routes.each do |r|
-        p #{r}
+	a = link_to destroy_user_session_path, :method => :delete, html: {'data-turbo' => "false"}
+		span logoutsadf
+	- @routes.pending.each do |r|
+		p #{r.name}
+		p Hora de inicio #{r.starts_at}
+		p Hora de termino #{r.ends_at}
+
+	.field
+    = label :route, 'ruta', class: 'form-label'
+    = select :route, options_for_select('valor1', 'valor2'),{}, { class: 'form-control' } 
+  
