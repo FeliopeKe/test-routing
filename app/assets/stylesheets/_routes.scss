@@ -1,3 +1,33 @@
+@use "sass:math";
+
 .background-header{
-    background-color: lightslategrey;
+  background-color: rgb(204, 206, 207);
+}
+.ml-auto{
+  margin-left: auto;
+}
+
+.hour-text{
+  font-size: small;
+  color: gray
+}
+
+.color-time{
+  $percentaje: math.div(90% , 55);
+  background-color: rgb(212, 95, 140);
+  width: $percentaje;
+}
+.without-color-time{
+  $percentaje: math.div(90% , 55);
+  width: $percentaje;
+}
+.time_line_size{
+  $percentaje: math.div(90% , 37);
+  width: $percentaje;
+}
+.max-height{
+  max-height: 3rem;
+}
+.bold{
+  font-weight: bold;
 }

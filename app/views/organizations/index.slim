@@ -1,7 +1,17 @@
-.row.px-5.py-5
-	h1 Conjunto de rutas
+.row.mx-3.py-5
+  .col-8
+	  h1 Conjunto de rutas
+  .col-2 
+    p Usuario #{current_user.email}
+    p Organizacion #{current_user.organization.name}
+  .col-2
+    a.px-5  = link_to destroy_user_session_path, :method => :delete, html: {'data-turbo' => "false"}
+      span.btn.btn-secondary.justify-content-end logout
 .row 
-	.col-9.p-5
+  .col-6.px-4
+    p Total de rutas #{@routes.count}
+.row 
+	.col-8.px-4
 			table.table.table-responsive
 				thead.background-header
 					tr 
@@ -16,18 +26,34 @@
 						th Accion
 				tbody 
 					- @routes.each do |r|
-						=form_with(url: set_driver_and_vehicle_path , method: "put", html: { class: 'form' }) do |f|
+						=form_with(url: set_driver_and_vehicle_path , method: "put", html: { class: 'form', 'data-turbo'=> 'false'}) do |f|
 							= f.hidden_field :route_id, value: r.id
 							tr  
 								td = r.name 
 								th = r.date
 								td = "#{r.starts_at_hour} hasta #{r.ends_at_hour}"
 								td = r.hours_duration
-								td = '2'
-								td = 'llegada'
+								td = '0'
+								td = 'Llegada'
 								td = f.select :vehicle_id, options_from_collection_for_select(@vehicles, 'id', 'plate', selected: r.vehicle&.id)
 								td = f.select :driver_id, options_from_collection_for_select(@drivers, 'id', 'name', selected: r.driver&.id)
 								td = f.submit 'asignar', class:'btn btn-primary'
-li 
-	a = link_to destroy_user_session_path, :method => :delete, html: {'data-turbo' => "false"}
-		span logoutsadf
+    .col-3.px-2
+      = image_tag("maps.png", class: "image-root ms-3", data: { target: "image-preview.output" })
+.row
+    .col-11.d-flex.ml-auto
+      - @time_hours.each do |t|
+        div.time_line_size.hour-text | #{t}
+- @routes.each do |r|
+  .row
+    .col-1.max-height
+      p.h-50.my-0.bold #{r.name}
+      p.h-50.my-0 #{r.vehicle&.plate}/#{r.driver&.name}
+    .col-11.d-flex.max-height.py-2
+      - @time_hours_painted.each do |t|
+        - if (t[:time].in_time_zone).between?(r.starts_at, r.ends_at)
+          div.color-time
+        - else 
+          div.without-color-time
+.row
+  

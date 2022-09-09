@@ -1,0 +1,16 @@
+- unless flash.blank?
+  - if flash.first[0] != 'notice'
+    .position-relative aria-atomic="true" aria-live="polite" data-controller='toast'
+      .toast-container.d-flex.justify-content-center.w-100
+        .notice-container.bottom-0.end-0.p-3
+          .toast aria-atomic="true" aria-live="assertive" role="alert"
+            .toast-header
+              strong.me-auto = 'Routing'
+              small.text-muted
+              button.btn-close aria-label="Close" data-bs-dismiss="toast" type="button"
+            .toast-body
+              - flash.each do |type, msg|
+                - if (type == 'message')
+                  =msg
+                - if (type == 'alert')
+                  =msg
