@@ -31,3 +31,8 @@
 .bold{
   font-weight: bold;
 }
+.color-time-assigned{
+  $percentaje: math.div(90% , 55);
+  background-color: rgb(158, 158, 158);
+  width: $percentaje;
+}

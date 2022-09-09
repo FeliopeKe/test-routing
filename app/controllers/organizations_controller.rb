@@ -36,9 +36,10 @@ class OrganizationsController < ApplicationController
   end
 
   def set_timeline_painted
+    day = Route.last.starts_at.beginning_of_day #set for example on the day of defined routes
     @time_hours_painted = [] 
-    init_of_day = Time.zone.today + 9.hours + 1.days
-    end_of_day = Time.zone.today + 18.hours + 1.days
+    init_of_day = day + 9.hours
+    end_of_day = day + 18.hours
     while init_of_day <= end_of_day
       @time_hours_painted << { time: init_of_day, hour: init_of_day.strftime("%H:%M") }
       init_of_day = init_of_day + 10.minutes

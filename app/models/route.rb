@@ -14,6 +14,7 @@ class Route < ApplicationRecord
   end
 
   ASSIGNABLES = %w[vehicle driver].freeze
+  
 
   ASSIGNABLES.each do |assignable|
     # Checks if the times of routes permit to assing
@@ -28,6 +29,12 @@ class Route < ApplicationRecord
       end
       true
     end
+  end
+
+  def another_routes_by_assigned
+    return [] if driver.nil?
+    routes = driver&.routes.where.not(id: id) + vehicle&.routes.where.not(id: id)
+    routes.uniq
   end
 
   def vehicle

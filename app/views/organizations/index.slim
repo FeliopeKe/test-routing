@@ -48,12 +48,19 @@
   .row
     .col-1.max-height
       p.h-50.my-0.bold #{r.name}
-      p.h-50.my-0 #{r.vehicle&.plate}/#{r.driver&.name}
+      p.h-50.my-0 #{r.vehicle&.plate.nil? ? "Sin asignar" : "#{r.vehicle&.plate}/#{r.driver&.name}"}
     .col-11.d-flex.max-height.py-2
       - @time_hours_painted.each do |t|
         - if (t[:time].in_time_zone).between?(r.starts_at, r.ends_at)
           div.color-time
-        - else 
-          div.without-color-time
+        - else
+          - unless r.another_routes_by_assigned.count.zero?
+            - r.another_routes_by_assigned.each do |rd|
+              - if (t[:time].in_time_zone).between?(rd.starts_at, rd.ends_at)
+                div.color-time-assigned
+              - else
+                div.without-color-time
+          - else
+            div.without-color-time
 .row
   
