@@ -51,7 +51,7 @@
       p.h-50.my-0 #{r.vehicle&.plate.nil? ? "Sin asignar" : "#{r.vehicle&.plate}/#{r.driver&.name}"}
     .col-11.d-flex.max-height.py-2
       - @time_hours_painted.each do |t|
-        - if (t[:time].in_time_zone).between?(r.starts_at, r.ends_at)
+        - if (t[:time].in_time_zone).between?(r.starts_at, r.ends_at-10.minutes)
           div.color-time
         - else
           - unless r.another_routes_by_assigned.count.zero?
